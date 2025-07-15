@@ -29,8 +29,7 @@ namespace TestVR
             var bullet = GetFreeBullet();
             bullet.gameObject.SetActive(true);
             bullet.transform.position = _bulletStartPoint.position;
-            var rotation = Quaternion.RotateTowards(_bulletStartPoint.rotation, Random.rotation, 30f);
-            bullet.AddForce(rotation * transform.forward * maxForce, ForceMode.Impulse);
+            bullet.AddForce(_bulletStartPoint.forward * maxForce, ForceMode.Impulse);
             ReturnBulletAsync(bullet, destroyCancellationToken).Forget();
         }
 
@@ -57,6 +56,7 @@ namespace TestVR
             }
             if (token.IsCancellationRequested) return;
             bullet.gameObject.SetActive(false);
+            bullet.velocity = Vector3.zero;
             freeBullets.Add(bullet);
         }
     }
